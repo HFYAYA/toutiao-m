@@ -2,7 +2,23 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+
+// 加载 Vant 核心组件库
+import Vant from 'vant'
+
+// 加载 Vant 全局样式
+import 'vant/lib/index.css'
+// 自己定义的全局样式
 import './styles/index.less'
+
+// 使用 lib-flexible 动态设置 REM 基准值（html 标签的字体大小）
+import 'amfe-flexible'
+
+// 加载 vdayjs 初始化配置
+import './utils/dayjs'
+
+// 注册使用 Vant 组件库
+Vue.use(Vant)
 
 Vue.config.productionTip = false
 
