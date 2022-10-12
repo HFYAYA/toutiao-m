@@ -1,6 +1,22 @@
 <template>
+  <!--
+    Cell 单元格to属性和 VueRouter 中的 RouterLink 导航组件中 to 属性用法是一样的
+  :to="'/article/' + article.art_id"
+  :to="`/article/${article.art_id}`
+  -->
+  <van-cell
+    class="article-item"
+    :to="{
+      //根据路由名称进行跳转
+      name: 'article',
 
-  <van-cell class="article-item">
+      //传递路由动态参数
+      params: {
+        //<!-- 属性名： 路由路径中设计的动态参数 -->
+        articleId: article.art_id
+      }
+    }"
+  >
     <div
       slot="title"
       class="title van-multi-ellipsis--l2"

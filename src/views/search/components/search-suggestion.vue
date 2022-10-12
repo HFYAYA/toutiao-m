@@ -24,6 +24,7 @@
 import { getSearchSuggestions } from '@/api/search'
 // 按需加载有好处：只会把使用到的成员打包到结果中
 import { debounce } from 'lodash'
+
 export default {
   // 组件名称
   name: 'SearchSuggestion',
@@ -40,7 +41,7 @@ export default {
   data () {
     return {
       suggestions: [], // 联想建议数据列表
-      htmlStr: 'Hello <span style="color: red">World</span>'
+      htmlStr: 'Hello <span style="color:red"> World</span>'
     }
   },
   // 计算属性
@@ -82,6 +83,7 @@ export default {
     },
 
     highlight (text) {
+      if (!text) return
       const highlightStr = `<span class="active">${this.searchText}</span>`
 
       // 正则表达式 // 中间的内容都会当作匹配字符来使用，而不是数据变量
@@ -90,8 +92,9 @@ export default {
       //    参数1：匹配模式字符串，它会根据这个字符串创建正则对象
       //    参数2：匹配模式，要写到字符串中
       const reg = new RegExp(this.searchText, 'gi')
-
-      return text.replace(reg, highlightStr)
+      const re = text.replace(reg, highlightStr)
+      // console.log(re)
+      return re
     }
   }
 }
