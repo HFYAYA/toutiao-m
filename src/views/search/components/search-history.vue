@@ -2,8 +2,12 @@
   <div class="search-history">
     <van-cell title="搜索历史">
       <div v-if="isDeleteShow">
-        <!-- props 只能读不能改 受父组件影响 searchHistories = []不行-->
-        <span @click="$emit('clear-search-histories')">全部删除</span>
+        <!-- props 只能读不能改 受父组件影响 searchHistories = []不行
+        可行
+        "$emit('clear-search-histories')
+        "searchHistories.splice(0)""-->
+        <span @click="$emit('clear-search-histories')
+        ">全部删除</span>
         &nbsp;&nbsp;
         <span @click="isDeleteShow = false">完成</span>
       </div>

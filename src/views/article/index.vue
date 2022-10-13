@@ -54,19 +54,47 @@
             slot="label"
             class="publish-date"
           >{{ article.pubdate | relativeTime}}</div>
+
+          <!-- 模板中的 $event 是事件参数
+          当我们传递给子组件的数据既要使用还要修改
+          传递：props
+            :is-followed="article.is_followed"
+          修改：自定义事件@update-is_followed="article.is_followed = $event"
+          简写方式： 在组件上使用 v-model
+          相当于-
+          :value="article.is_followed"
+          @input="article.is_followed = $event"
+
+          如果想需要修改 v-model 的规则名称，则可以通过子组件的model 属性来配置修改
+
+          一个组件上只能使用一次 v-model
+          如果有多个数据需要实现类似于 v-model 的效果，咋办嘞？
+          可以使用属性的 .sync 修饰符-->
+          <follow-user
+            class="follow-btn"
+            v-model="article.is_followed"
+            :user-id="article.aut_id"
+          />
+          <!-- <van-button
+            v-if="article.is_followed"
+            class="follow-btn"
+            round
+            size="small"
+            @click="onFollow"
+            :loading="followLoading"
+          >已关注</van-button>
           <van-button
+            v-else
             round
             class="follow-btn"
             type="info"
             color="#3269fa"
             size="small"
             icon="plus"
-          >关注</van-button>
-          <!-- <van-button
-        class="follow-btn"
-        round
-        size="small"
-      >已关注</van-button> -->
+            @click="onFollow"
+            :loading="followLoading"
+          >关注</van-button> -->
+
         </van-cell>
         <!-- /用户信息 -->
 
@@ -140,7 +168,7 @@
 <script>
 import { getArticleById } from '@/api/article.js'
 import { ImagePreview } from 'vant'
-
+import FollowUser from '@/components/follow-user'
 // ImagePreview({
 //   images: [
 //     'https://img01.yzcdn.cn/vant/apple-1.jpg',
@@ -158,7 +186,9 @@ export default {
   // 组件名称
   name: 'ArticleIndex',
   // 局部注册的组件
-  components: {},
+  components: {
+    FollowUser
+  },
   // 组件参数 接收来自父组件的数据
   props: {
     articleId: {
@@ -171,7 +201,8 @@ export default {
     return {
       article: {}, // 文章详情
       loading: false, // 加载中的 loading 状态
-      errStatus: 0// 失败的状态码
+      errStatus: 0, // 失败的状态码
+      followLoading: false
     }
   },
   // 计算属性
@@ -184,6 +215,9 @@ export default {
   },
 
   mounted () { },
+  updated () {
+    this.previewImage()
+  },
   // 组件方法
   methods: {
     async loadArticle () {
@@ -200,11 +234,11 @@ export default {
         // xiamian undefined 数据驱动视图这件事不是立即
         this.article = data.data
 
-        // 初始化图片点击预览
+        // 初始化图片点击预览 也可以在update
         // console.log(this.$refs['article-content'])
-        setTimeout(() => {
-          this.previewImage()
-        }, 0)
+        // setTimeout(() => {
+        //   this.previewImage()
+        // }, 0)
       } catch (err) {
         if (err.response && err.response.status === 404) {
           this.errStatus = 404
@@ -234,6 +268,7 @@ export default {
         }
       })
     }
+
   }
 }
 </script>
