@@ -105,6 +105,41 @@
           ref="article-content"
         >这是文章内容</div>
         <van-divider>正文结束</van-divider>
+        <!-- 底部区域 -->
+        <div class="article-bottom">
+          <van-button
+            class="comment-btn"
+            type="default"
+            size="small"
+            round
+          >写评论</van-button>
+          <van-icon
+            class="comment-icon"
+            name="comment-o"
+            badge="123"
+          />
+
+          <collect-article
+            class="btn-item"
+            v-model="article.is_collected"
+            :article-id="article.art_id"
+          />
+
+          <like-article
+            class="btn-item"
+            v-model="article.attitude"
+            :article-id="article.art_id"
+          />
+          <!-- <van-button
+            class="btn-item"
+            icon="good-job-o"
+          /> -->
+          <van-icon
+            name="share-o"
+            color="#777777"
+          ></van-icon>
+        </div>
+        <!-- /底部区域 -->
       </div>
       <!-- /文章内容 -->
       <!-- /加载完成-文章详情 -->
@@ -134,33 +169,6 @@
       </div>
       <!-- /加载失败：其它未知错误 -->
 
-      <!-- 底部区域 -->
-      <div class="article-bottom">
-        <van-button
-          class="comment-btn"
-          type="default"
-          size="small"
-          round
-        >写评论</van-button>
-        <van-icon
-          class="comment-icon"
-          name="comment-o"
-          badge="123"
-        />
-        <van-button
-          class="btn-item"
-          icon="star-o"
-        />
-        <van-button
-          class="btn-item"
-          icon="good-job-o"
-        />
-        <van-icon
-          name="share-o"
-          color="#777777"
-        ></van-icon>
-      </div>
-      <!-- /底部区域 -->
     </div>
   </div>
 </template>
@@ -169,6 +177,8 @@
 import { getArticleById } from '@/api/article.js'
 import { ImagePreview } from 'vant'
 import FollowUser from '@/components/follow-user'
+import CollectArticle from '@/components/collect-article'
+import LikeArticle from '@/components/like-article'
 // ImagePreview({
 //   images: [
 //     'https://img01.yzcdn.cn/vant/apple-1.jpg',
@@ -187,7 +197,9 @@ export default {
   name: 'ArticleIndex',
   // 局部注册的组件
   components: {
-    FollowUser
+    FollowUser,
+    CollectArticle,
+    LikeArticle
   },
   // 组件参数 接收来自父组件的数据
   props: {
